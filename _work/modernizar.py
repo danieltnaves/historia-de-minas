@@ -45,7 +45,7 @@ def modernizar(t):
     t = troca(r"\bd['’]ahi\b", "daí", t)
     t = troca(r"\bd['’]aquell(e|a|es|as)\b", r"daquel\1", t)
     t = troca(r"\bd['’]ell(e|a|es|as)\b", r"del\1", t)
-    t = troca(r"\bd['’](esse|essa|esses|essas|este|esta|estes|estas|isso|isto|antes|onde|um|uma)\b", r"d\1", t)
+    t = troca(r"\bd['’](esse|essa|esses|essas|este|esta|estes|estas|isso|isto|antes|onde|um|uma|entre|aqui)\b", r"d\1", t)
     t = t.replace("Dê-m'as", "Dê-mas").replace("Dê-m’as", "Dê-mas")
     t = re.sub(r"\bA['’]s\b", "Às", t)
     t = re.sub(r"\bA['’](?=\s)", "À", t)
@@ -82,7 +82,7 @@ def modernizar(t):
 
     def palavra(m):
         w = m.group(0)
-        if w == "Bahia":
+        if w.lower() == "bahia" and w != "bahia":  # o estado mantém o "h"; a baía, não
             return w
         novo = MAPA.get(w.lower())
         return caixa(w, novo) if novo else w
@@ -108,5 +108,13 @@ for i, p in enumerate(partes):
     elif not (secao == "obras" and em_strong):  # títulos da lista do autor ficam como impressos
         partes[i] = modernizar(p)
 html = "".join(partes).replace("Carlos Góes (1938)</title>", "Carlos Góes (1938, ortografia atualizada)</title>")
+# correções pontuais: hifenização, nomes e erros impressos no livro
+for linha in (work / "correcoes.tsv").read_text(encoding="utf-8").splitlines():
+    if not linha or linha.startswith("#"):
+        continue
+    antes, depois, vezes = linha.split("\t")
+    if html.count(antes) != int(vezes):
+        raise SystemExit(f"correção {antes!r}: esperadas {vezes} ocorrências, achadas {html.count(antes)}")
+    html = html.replace(antes, depois)
 (root / "index-moderno.html").write_text(html, encoding="utf-8")
 print("gerado", root / "index-moderno.html")

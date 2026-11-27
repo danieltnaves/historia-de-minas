@@ -7,7 +7,9 @@ Versão em HTML do livro *Historias da Terra Mineira*, de **Carlos Góes** (12ª
 - **Extração via IA:** o texto e as ilustrações foram extraídos do PDF original com o auxílio de inteligência artificial.
 - **Modernização via IA:** as palavras do português brasileiro antigo foram atualizadas para a grafia atual (por exemplo, `estylo` → estilo, `typicamente` → tipicamente, `elle` → ele), mantendo a estrutura do texto original: capítulos, parágrafos, versos, notas, imagens e pontuação.
 
-> **Atenção:** o texto ainda não passou por uma revisão completa, frase por frase. Pode haver erros de extração ou de modernização. Em caso de dúvida, vale o livro original.
+- **Revisão via IA:** o texto modernizado foi relido por inteiro, e erros evidentes de impressão do livro foram corrigidos somente nessa versão (veja [`_work/correcoes.tsv`](_work/correcoes.tsv)).
+
+> **Atenção:** não houve revisão humana nem conferência de todas as páginas contra as digitalizações. Pode haver erros de extração ou de modernização. Em caso de dúvida, vale o livro original.
 
 ## Como ler
 
@@ -30,6 +32,7 @@ _work/text/                   transcrição, um fragmento HTML por folha digital
 _work/build.py                monta o index.html a partir dos fragmentos
 _work/modernizar.py           gera o index-moderno.html a partir do index.html
 _work/modernizar-mapa.tsv     tabela de palavras: grafia antiga → atual
+_work/correcoes.tsv           hifenização, nomes e erros impressos: antes → depois
 _work/inventory-notes.md      notas da extração e convenções de transcrição
 _work/pt.sh                   imprime o texto puro dos fragmentos
 ```
@@ -45,4 +48,4 @@ python3 _work/build.py        # fragmentos -> index.html
 python3 _work/modernizar.py   # index.html -> index-moderno.html
 ```
 
-Para corrigir a transcrição, edite os arquivos em `_work/text/`. Para corrigir uma palavra modernizada, edite `_work/modernizar-mapa.tsv`; as regras que dependem do contexto ficam em `_work/modernizar.py`. Depois, rode os dois comandos acima.
+Para corrigir a transcrição, edite os arquivos em `_work/text/`. Para corrigir uma palavra modernizada, edite `_work/modernizar-mapa.tsv`; as regras que dependem do contexto ficam em `_work/modernizar.py` e as correções pontuais em `_work/correcoes.tsv`. Depois, rode os dois comandos acima.
