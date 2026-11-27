@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble _work/text/p*.html into ../index.html (run from anywhere)."""
+"""Assemble _work/text/p*.html into ../index-original.html (run from anywhere)."""
 import re, sys
 from pathlib import Path
 
@@ -63,6 +63,7 @@ h2{font-size:1.9rem;margin:4rem 0 1.2rem;padding-top:1.5rem;border-top:1px solid
 h2.front-title{font-size:1.5rem;margin-top:2.5rem}
 p{margin:0 0 .9rem;text-align:justify;hyphens:auto}
 a{color:var(--accent)}
+.versao{text-align:right;font-size:.9rem;margin:0 0 .5rem}
 .cover{text-align:center;margin:1rem 0 2rem}
 .cover img{max-width:100%;height:auto;max-height:80vh;box-shadow:0 2px 14px #0005}
 .titlepage{text-align:center;margin:2rem 0 3rem;padding:2rem 1rem;border:1px solid var(--rule);background:var(--paper)}
@@ -111,6 +112,7 @@ html = f"""<!doctype html>
 </head>
 <body>
 <main>
+<p class="versao"><a href="index.html">Ler na ortografia atual</a></p>
 <div class="cover"><img src="images/cover.jpg" alt="Capa de Historias da Terra Mineira"></div>
 <nav class="toc" id="top"><h2>Conteúdo</h2><ol>
 {chr(10).join(toc)}
@@ -120,5 +122,5 @@ html = f"""<!doctype html>
 </body>
 </html>
 """
-(root / "index.html").write_text(html, encoding="utf-8")
-print(f"wrote {root/'index.html'}  ({len(html)//1024} KiB, {len(frags)} fragments, {len(titles)} stories)")
+(root / "index-original.html").write_text(html, encoding="utf-8")
+print(f"wrote {root/'index-original.html'}  ({len(html)//1024} KiB, {len(frags)} fragments, {len(titles)} stories)")

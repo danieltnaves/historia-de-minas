@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera ../index-moderno.html (ortografia atual) a partir de ../index.html.
+"""Gera ../index.html (ortografia atual) a partir de ../index-original.html.
 Só altera o texto e os atributos alt; marcação, ids e comentários ficam intactos."""
 import re
 from pathlib import Path
@@ -94,7 +94,7 @@ def modernizar(t):
 
     return re.sub(r"\x00(\d+)\x00", lambda m: guardados[int(m.group(1))], t)
 
-fonte = (root / "index.html").read_text(encoding="utf-8")
+fonte = (root / "index-original.html").read_text(encoding="utf-8")
 partes = re.split(r"(<style>.*?</style>|<!--.*?-->|<[^>]+>)", fonte, flags=re.S)
 secao, em_strong = "", False
 for i, p in enumerate(partes):
@@ -116,5 +116,10 @@ for linha in (work / "correcoes.tsv").read_text(encoding="utf-8").splitlines():
     if html.count(antes) != int(vezes):
         raise SystemExit(f"correção {antes!r}: esperadas {vezes} ocorrências, achadas {html.count(antes)}")
     html = html.replace(antes, depois)
-(root / "index-moderno.html").write_text(html, encoding="utf-8")
-print("gerado", root / "index-moderno.html")
+# link entre as versões: nesta página ele aponta para o texto de 1938
+link = '<a href="index.html">Ler na ortografia atual</a>'
+if html.count(link) != 1:
+    raise SystemExit("link entre versões não encontrado em index-original.html")
+html = html.replace(link, '<a href="index-original.html">Ler no texto original de 1938</a>')
+(root / "index.html").write_text(html, encoding="utf-8")
+print("gerado", root / "index.html")

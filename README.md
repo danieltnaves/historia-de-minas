@@ -17,20 +17,20 @@ Abra um dos arquivos no navegador:
 
 | Arquivo | Conteúdo |
 |---|---|
-| [`index-moderno.html`](index-moderno.html) | Texto com a ortografia atual |
-| [`index.html`](index.html) | Texto com a grafia original de 1938 |
+| [`index.html`](index.html) | Texto com a ortografia atual (página principal) |
+| [`index-original.html`](index-original.html) | Texto com a grafia original de 1938 |
 
-Em `index-moderno.html`, mantêm a grafia original o nome do autor, as assinaturas da certidão, os títulos de livros nas referências e na lista de obras do autor, as citações em latim e a imagem da capa. Trechos ilegíveis aparecem como `[?]`.
+Em `index.html`, mantêm a grafia original o nome do autor, as assinaturas da certidão, os títulos de livros nas referências e na lista de obras do autor, as citações em latim e a imagem da capa. Trechos ilegíveis aparecem como `[?]`.
 
 ## Estrutura
 
 ```
-index.html                    texto de 1938 (gerado por _work/build.py)
-index-moderno.html            texto modernizado (gerado por _work/modernizar.py)
+index.html                    texto modernizado (gerado por _work/modernizar.py)
+index-original.html           texto de 1938 (gerado por _work/build.py)
 images/                       capa e ilustrações
 _work/text/                   transcrição, um fragmento HTML por folha digitalizada
-_work/build.py                monta o index.html a partir dos fragmentos
-_work/modernizar.py           gera o index-moderno.html a partir do index.html
+_work/build.py                monta o index-original.html a partir dos fragmentos
+_work/modernizar.py           gera o index.html a partir do index-original.html
 _work/modernizar-mapa.tsv     tabela de palavras: grafia antiga → atual
 _work/correcoes.tsv           hifenização, nomes e erros impressos: antes → depois
 _work/inventory-notes.md      notas da extração e convenções de transcrição
@@ -44,8 +44,8 @@ As digitalizações intermediárias (`_work/orig/` e `_work/halves/`) e o PDF or
 Requer Python 3, sem dependências externas.
 
 ```sh
-python3 _work/build.py        # fragmentos -> index.html
-python3 _work/modernizar.py   # index.html -> index-moderno.html
+python3 _work/build.py        # fragmentos -> index-original.html
+python3 _work/modernizar.py   # index-original.html -> index.html
 ```
 
 Para corrigir a transcrição, edite os arquivos em `_work/text/`. Para corrigir uma palavra modernizada, edite `_work/modernizar-mapa.tsv`; as regras que dependem do contexto ficam em `_work/modernizar.py` e as correções pontuais em `_work/correcoes.tsv`. Depois, rode os dois comandos acima.
